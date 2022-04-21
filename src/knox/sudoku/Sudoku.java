@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Scanner;
 
+import javax.swing.JOptionPane;
+
 /**
  * 
  * This is the MODEL class. This class knows all about the
@@ -22,11 +24,29 @@ public class Sudoku {
 	
 	public int get(int row, int col) {
 		// TODO: check for out of bounds
+		if((row>9 || row<0) || (col>9 || col<0))
+		{
+			JOptionPane.showMessageDialog(null, "Invalid space");
+			return -1;
+		}
 		return board[row][col];
 	}
 	
 	public void set(int row, int col, int val) {
 		// TODO: make sure val is legal
+		
+		//checks to make sure val is 1-9
+		if(val<0 || val>9)
+		{
+			JOptionPane.showMessageDialog(null, "Invalid number");
+			return;
+		}
+		
+		//checks to make sure space is valid 
+		if(get(row, col)==-1)
+		{
+			return;
+		}
 		board[row][col] = val;
 	}
 	
