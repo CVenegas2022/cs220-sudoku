@@ -24,9 +24,10 @@ public class Sudoku {
 	
 	public int get(int row, int col) {
 		// TODO: check for out of bounds
+		//UPDATE: done!
 		if((row>9 || row<0) || (col>9 || col<0))
 		{
-			JOptionPane.showMessageDialog(null, "Invalid space");
+			System.out.println("invalid space");
 			return -1;
 		}
 		return board[row][col];
@@ -34,30 +35,105 @@ public class Sudoku {
 	
 	public void set(int row, int col, int val) {
 		// TODO: make sure val is legal
+		//UPDATE: Done!
 		
-		//checks to make sure val is 1-9
+		//checks to make sure val is 1-9 and is valid
 		if(val<0 || val>9)
 		{
-			JOptionPane.showMessageDialog(null, "Invalid number");
+			System.out.println("invalid number");
 			return;
 		}
 		
-		//checks to make sure space is valid 
-		if(get(row, col)==-1)
+		if(!isLegal(row, col, val))
 		{
 			return;
 		}
+		
+		//checks to make sure space is in bounds and blank
+		//int temp = get(row, col);
+		//if(temp==-1 || !isBlank(row, col))
+		//{
+		//	System.out.println("invalid space");
+		//	return;
+		//}
+		
 		board[row][col] = val;
 	}
 	
 	public boolean isLegal(int row, int col, int val) {
 		// TODO: check if it's legal to put val at row, col
-		return true;
+		//UPDATE: done!
+		
+		
+		LinkedList<Integer> legalVals=(LinkedList<Integer>) getLegalValues(row, col);
+		
+		if(!isBlank(row, col))
+		{
+			System.out.println("Space is not blank");
+			return false;
+		}
+		
+		for(int i=0; i<legalVals.size(); i++)
+		{
+			if(val==legalVals.get(i))
+			{
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	public Collection<Integer> getLegalValues(int row, int col) {
 		// TODO: return only the legal values that can be stored at the given row, col
-		return new LinkedList<>();
+		//UPDATE: done!
+		
+		Collection<Integer> vals = new LinkedList<Integer>();
+		
+		for(int i=1; i<10; i++)
+		{
+			vals.add(i);
+		}
+		
+		for(int k=1; k<10; k++)
+		{
+			//check to see if number exists in column
+			for(int i=0; i<9; i++)
+			{
+				if(get(i, col)==k)
+				{
+					vals.remove(k);
+				}
+			}
+			
+			//check to see if number exists in row
+			for(int i=0; i<9; i++)
+			{
+				if(get(row, i)==k)
+				{
+					vals.remove(k);
+				}
+			}
+					
+			//check to see if number exists in box
+			int boxR = get3x3row(row);
+			int boxC = get3x3row(col);
+			for(int i=0; i<9; i++)
+			{
+				for(int j=0; j<9; j++)
+				{
+					if(get3x3row(i)==boxR && get3x3row(j)==boxC)
+					{
+						if(get(i, j)==k)
+						{
+							vals.remove(k);
+						}
+					}
+				}
+			}
+		}
+		
+		return vals;
 	}
 	
 /**
@@ -133,7 +209,31 @@ etc
 
 	public boolean gameOver() {
 		// TODO check that there are still open spots
-		return false;
+		//UPDATE: done!
+		
+		boolean isGGEZ=true;	//boolean to keep track of whether all spaces are filled
+		for(int i=0; i<9; i++)
+		{
+			for(int j=0; j<9; j++)
+			{
+				//if the current space is blank...
+				if(isBlank(i, j))
+				{
+					//set the boolean to false and break
+					isGGEZ=false;
+					break;
+				}
+			}
+			//if all spaces aren't filled...
+			if(!isGGEZ)
+			{
+				//exit the loop
+				break;
+			}
+		}
+		
+		//return the boolean
+		return isGGEZ;
 	}
 
 	public boolean isBlank(int row, int col) {

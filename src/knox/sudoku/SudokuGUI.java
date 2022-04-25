@@ -126,11 +126,17 @@ public class SudokuGUI extends JFrame {
 				// TODO: figure out some way that users can enter values
 				// A simple way to do this is to take keyboard input
 				// or you can cycle through possible legal values with each click
-				// or pop up a selector with only the legal valuess
+				// or pop up a selector with only the legal values
+				
+				//This works for some reason.  I'm guessing it's due to it calling
+				//on Sudoku logic.  I can't figure out why inputs are working though
 				
 			} else {
 				// TODO: error dialog letting the user know that they cannot enter values
 				// where a value has already been placed
+				
+				//this already seems to be done...
+				
 				JOptionPane.showMessageDialog(null, "Can't enter a value here");
 			}
 			
