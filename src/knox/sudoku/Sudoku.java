@@ -1,5 +1,7 @@
 package knox.sudoku;
 import java.io.FileInputStream;
+//fixed the next import with help from Stack Overflow
+//https://stackoverflow.com/questions/15416186/eclipse-the-import-java-io-cannot-be-resolved
 import java.io.IOException;
 import java.util.Collection;
 import java.util.LinkedList;

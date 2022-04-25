@@ -112,7 +112,7 @@ public class SudokuGUI extends JFrame {
     	}
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			//System.out.printf("row %d, col %d, %s\n", row, col, e);
+			System.out.printf("row %d, col %d, %s\n", row, col, e);
 			JButton button = (JButton)e.getSource();
 			
 			if (row == currentRow && col == currentCol) {
