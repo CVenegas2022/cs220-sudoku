@@ -1,4 +1,5 @@
 package knox.sudoku;
+import java.io.File;
 import java.io.FileInputStream;
 //fixed the next import with help from Stack Overflow
 //https://stackoverflow.com/questions/15416186/eclipse-the-import-java-io-cannot-be-resolved
@@ -21,12 +22,13 @@ import javax.swing.JOptionPane;
  * @author jaimespacco
  *
  */
+
+//used some code from class
+
 public class Sudoku {
 	int[][] board = new int[9][9];
 	
 	public int get(int row, int col) {
-		// TODO: check for out of bounds
-		//UPDATE: done!
 		if((row>9 || row<0) || (col>9 || col<0))
 		{
 			System.out.println("invalid space");
@@ -36,8 +38,6 @@ public class Sudoku {
 	}
 	
 	public void set(int row, int col, int val) {
-		// TODO: make sure val is legal
-		//UPDATE: Done!
 		
 		//checks to make sure val is 1-9 and is valid
 		if(val<0 || val>9)
@@ -46,26 +46,10 @@ public class Sudoku {
 			return;
 		}
 		
-		if(!isLegal(row, col, val))
-		{
-			return;
-		}
-		
-		//checks to make sure space is in bounds and blank
-		//int temp = get(row, col);
-		//if(temp==-1 || !isBlank(row, col))
-		//{
-		//	System.out.println("invalid space");
-		//	return;
-		//}
-		
 		board[row][col] = val;
 	}
 	
 	public boolean isLegal(int row, int col, int val) {
-		// TODO: check if it's legal to put val at row, col
-		//UPDATE: done!
-		
 		
 		LinkedList<Integer> legalVals=(LinkedList<Integer>) getLegalValues(row, col);
 		
@@ -87,8 +71,6 @@ public class Sudoku {
 	}
 	
 	public Collection<Integer> getLegalValues(int row, int col) {
-		// TODO: return only the legal values that can be stored at the given row, col
-		//UPDATE: done!
 		
 		Collection<Integer> vals = new LinkedList<Integer>();
 		
@@ -148,9 +130,9 @@ etc
 0 0 0 3 0 4 0 8 9
 
  */
-	public void load(String filename) {
+	public void load(File file) {
 		try {
-			Scanner scan = new Scanner(new FileInputStream(filename));
+			Scanner scan = new Scanner(new FileInputStream(file));
 			// read the file
 			for (int r=0; r<9; r++) {
 				for (int c=0; c<9; c++) {
@@ -161,6 +143,10 @@ etc
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+	}
+	
+	public void load(String filename) {
+		load(new File(filename));
 	}
 	
 	/**
@@ -192,6 +178,19 @@ etc
 		return result;
 	}
 	
+	public String toFileString() {
+		String result = "";
+		for (int r=0; r<9; r++) {
+			for (int c=0; c<9; c++) {
+				int val = get(r, c);
+				result += val + " ";
+				}
+			result += "\n";
+			}
+			
+		return result;
+	}
+	
 	public static void main(String[] args) {
 		Sudoku sudoku = new Sudoku();
 		sudoku.load("easy1.txt");
@@ -210,8 +209,6 @@ etc
 	}
 
 	public boolean gameOver() {
-		// TODO check that there are still open spots
-		//UPDATE: done!
 		
 		boolean isGGEZ=true;	//boolean to keep track of whether all spaces are filled
 		for(int i=0; i<9; i++)
